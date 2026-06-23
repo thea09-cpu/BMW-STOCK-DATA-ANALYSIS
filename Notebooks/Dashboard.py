@@ -178,7 +178,7 @@ st.markdown(f"""
     <div class="bmw-roundel">BMW</div>
     <div>
         <div class="bmw-title">BMW STOCK ANALYTICS</div>
-        <div class="bmw-subtitle">✨ cute &amp; techy market dashboard ✨</div>
+        <div class="bmw-subtitle">✨ Market dashboard ✨</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -190,7 +190,7 @@ st.markdown(f"<hr style='margin-top:6px;'>", unsafe_allow_html=True)
 # ---------------------------------------------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Final_BMW_dataset.csv")
+    df = pd.read_csv("Data\Clean\Final_BMW_dataset.csv")
     df["Date"] = pd.to_datetime(df["Date"])
     df = df.sort_values("Date").reset_index(drop=True)
     return df
