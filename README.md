@@ -69,5 +69,5 @@ Then open the local URL Streamlit prints (default `http://localhost:8501`).
 - This project is for educational/coursework purposes. The predictive models are not intended as financial or trading advice.
 
 ## Author
-Developed by **Cynthia Mueni**
-Github Profile:https://github.com/thea09-cpu
+- Developed by **Cynthia Mueni**
+- Github Profile:https://github.com/thea09-cpu
