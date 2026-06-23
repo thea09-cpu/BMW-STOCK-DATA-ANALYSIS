@@ -190,7 +190,7 @@ st.markdown(f"<hr style='margin-top:6px;'>", unsafe_allow_html=True)
 # ---------------------------------------------------------------
 @st.cache_data
 def load_data():
-    df = pd.read_csv("Data\Clean\Final_BMW_dataset.csv")
+    df = pd.read_csv("Data/Clean/Final_BMW_dataset.csv")
     df["Date"] = pd.to_datetime(df["Date"])
     df = df.sort_values("Date").reset_index(drop=True)
     return df
