@@ -95,11 +95,11 @@ h1, h2, h3 {{
 }}
 
 h1 {{
-    color: {PRIMARY} !important;
+    color: {HIGHLIGHT} !important;
     text-shadow: 0 0 18px rgba(255,182,193,0.45);
 }}
 h2, h3 {{
-    color: {SECONDARY} !important;
+    color: {DATA_LINE} !important;
 }}
 h2::before, h3::before {{
     content: "// ";
