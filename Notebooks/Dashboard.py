@@ -27,25 +27,50 @@ MUTED       = "#A9A9A9"   # Gray
 CARD_BG     = "#252A4D"   # slightly lighter navy for cards
 
 # ---------------------------------------------------------------
-# CUSTOM CSS — fonts, colors, styling
+# CUSTOM CSS — cyberpunk trading-terminal skin (palette unchanged)
 # ---------------------------------------------------------------
 st.markdown(f"""
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
+:root {{
+    --hud-corner: {DATA_LINE};
+}}
+
 html, body, [class*="css"] {{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Share Tech Mono', monospace;
     color: {TEXT};
 }}
 
-/* App background with subtle glowing roundel watermark */
+/* App background — navy void + HUD scanline grid */
 .stApp {{
     background-color: {BG};
     background-image:
         radial-gradient(circle at 85% 8%, rgba(0,255,255,0.10) 0%, rgba(0,255,255,0) 40%),
-        radial-gradient(circle at 10% 90%, rgba(255,182,193,0.08) 0%, rgba(255,182,193,0) 45%);
+        radial-gradient(circle at 10% 90%, rgba(255,182,193,0.08) 0%, rgba(255,182,193,0) 45%),
+        repeating-linear-gradient(0deg, rgba(0,255,255,0.035) 0px, rgba(0,255,255,0.035) 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(90deg, rgba(200,162,200,0.02) 0px, rgba(200,162,200,0.02) 1px, transparent 1px, transparent 48px);
     background-attachment: fixed;
+}}
+
+/* Ambient scanline sweep — one animated signature element, used sparingly */
+.scan-sweep {{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, {DATA_LINE}, transparent);
+    box-shadow: 0 0 12px 2px rgba(0,255,255,0.6);
+    opacity: 0.5;
+    z-index: 1;
+    pointer-events: none;
+    animation: sweep 7s linear infinite;
+}}
+@keyframes sweep {{
+    0%   {{ top: 0%; opacity: 0; }}
+    5%   {{ opacity: 0.5; }}
+    95%  {{ opacity: 0.5; }}
+    100% {{ top: 100%; opacity: 0; }}
 }}
 
 /* Big watermark badge behind content */
@@ -76,41 +101,91 @@ h1 {{
 h2, h3 {{
     color: {SECONDARY} !important;
 }}
+h2::before, h3::before {{
+    content: "// ";
+    color: {DATA_LINE};
+    opacity: 0.7;
+}}
 
-/* Sidebar */
+/* Sidebar — terminal control panel */
 section[data-testid="stSidebar"] {{
     background-color: #14172E;
-    border-right: 1px solid rgba(200,162,200,0.25);
+    border-right: 1px solid rgba(0,255,255,0.25);
+    box-shadow: inset -8px 0 24px rgba(0,255,255,0.04);
 }}
 section[data-testid="stSidebar"] * {{
     color: {TEXT} !important;
+    font-family: 'Share Tech Mono', monospace !important;
 }}
 
-/* Metric cards */
-div[data-testid="stMetric"] {{
+/* --- HUD corner-bracket frame, reused on metrics / charts / tables --- */
+div[data-testid="stMetric"],
+div[data-testid="stPlotlyChart"],
+[data-testid="stDataFrame"] {{
+    position: relative;
     background: {CARD_BG};
-    border: 1px solid rgba(0,255,255,0.25);
-    border-radius: 16px;
-    padding: 14px 18px;
+    border: 1px solid rgba(0,255,255,0.18);
+    border-radius: 4px;
     box-shadow: 0 0 18px rgba(0,255,255,0.08);
+}}
+div[data-testid="stMetric"]::before,
+div[data-testid="stPlotlyChart"]::before,
+[data-testid="stDataFrame"]::before {{
+    content: "";
+    position: absolute;
+    inset: 6px;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to bottom, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to left, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to bottom, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to right, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to top, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to left, var(--hud-corner) 2px, transparent 2px),
+        linear-gradient(to top, var(--hud-corner) 2px, transparent 2px);
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+    background-position: top left, top left, top right, top right, bottom left, bottom left, bottom right, bottom right;
+    opacity: 0.85;
+}}
+
+div[data-testid="stMetric"] {{
+    padding: 16px 18px;
 }}
 div[data-testid="stMetricLabel"] {{
     color: {MUTED} !important;
-    font-family: 'Quicksand', sans-serif !important;
+    font-family: 'Share Tech Mono', monospace !important;
+    text-transform: uppercase;
+    font-size: 12px !important;
+    letter-spacing: 1px;
 }}
 div[data-testid="stMetricValue"] {{
     color: {DATA_LINE} !important;
     font-family: 'Orbitron', sans-serif !important;
+    text-shadow: 0 0 10px rgba(0,255,255,0.5);
 }}
 
-/* Tabs */
+/* Tabs — terminal command switches */
+div[data-baseweb="tab-list"] {{
+    border-bottom: 1px solid rgba(0,255,255,0.2) !important;
+    gap: 4px;
+}}
 button[data-baseweb="tab"] {{
-    font-family: 'Orbitron', sans-serif !important;
+    font-family: 'Share Tech Mono', monospace !important;
     color: {MUTED} !important;
+    background: rgba(0,255,255,0.03);
+    border: 1px solid rgba(0,255,255,0.12) !important;
+    border-radius: 4px 4px 0 0 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }}
 button[data-baseweb="tab"][aria-selected="true"] {{
     color: {PRIMARY} !important;
-    border-bottom: 3px solid {PRIMARY} !important;
+    background: rgba(255,182,193,0.06);
+    border-color: rgba(255,182,193,0.4) !important;
+    border-bottom: 2px solid {PRIMARY} !important;
+    text-shadow: 0 0 8px rgba(255,182,193,0.4);
 }}
 
 /* Badge / logo block */
@@ -119,6 +194,8 @@ button[data-baseweb="tab"][aria-selected="true"] {{
     align-items: center;
     gap: 14px;
     margin-bottom: 6px;
+    position: relative;
+    z-index: 1;
 }}
 .bmw-roundel {{
     width: 56px;
@@ -144,17 +221,55 @@ button[data-baseweb="tab"][aria-selected="true"] {{
     text-shadow: 0 0 16px rgba(255,182,193,0.5);
     letter-spacing: 1px;
 }}
+.bmw-title .cursor {{
+    display: inline-block;
+    color: {DATA_LINE};
+    animation: blink 1.1s steps(1) infinite;
+}}
+@keyframes blink {{ 50% {{ opacity: 0; }} }}
 .bmw-subtitle {{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Share Tech Mono', monospace;
     color: {MUTED};
-    font-size: 14px;
-    margin-top: -6px;
+    font-size: 13px;
+    margin-top: -4px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}}
+.bmw-subtitle span {{ color: {SECONDARY}; }}
+
+/* Ticker tape — scrolling live-feed strip */
+.ticker-wrap {{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background: #10132A;
+    border-top: 1px solid rgba(0,255,255,0.25);
+    border-bottom: 1px solid rgba(0,255,255,0.25);
+    box-shadow: 0 0 14px rgba(0,255,255,0.08) inset;
+    padding: 8px 0;
+    margin: 10px 0 18px 0;
+}}
+.ticker-track {{
+    display: inline-block;
+    white-space: nowrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1px;
+    animation: ticker 28s linear infinite;
+    padding-left: 100%;
+}}
+.ticker-track span.tk-up {{ color: {SECONDARY}; text-shadow: 0 0 6px rgba(152,255,152,0.5); }}
+.ticker-track span.tk-down {{ color: {PRIMARY}; text-shadow: 0 0 6px rgba(255,182,193,0.5); }}
+.ticker-track span.tk-label {{ color: {MUTED}; }}
+.ticker-track span.tk-sep {{ color: {HIGHLIGHT}; margin: 0 18px; }}
+@keyframes ticker {{
+    0%   {{ transform: translateX(0); }}
+    100% {{ transform: translateX(-100%); }}
 }}
 
-/* Dataframe */
-[data-testid="stDataFrame"] {{
-    border: 1px solid rgba(152,255,152,0.25);
-    border-radius: 12px;
+/* Dataframe text */
+[data-testid="stDataFrame"] * {{
+    font-family: 'Share Tech Mono', monospace !important;
 }}
 
 /* Sliders / widgets accent */
@@ -163,11 +278,12 @@ div[data-baseweb="slider"] > div > div {{
 }}
 
 hr {{
-    border-color: rgba(169,169,169,0.25);
+    border-color: rgba(0,255,255,0.2);
 }}
 </style>
 
 <div class="bmw-watermark">BMW</div>
+<div class="scan-sweep"></div>
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------------
@@ -177,13 +293,11 @@ st.markdown(f"""
 <div class="bmw-badge">
     <div class="bmw-roundel">BMW</div>
     <div>
-        <div class="bmw-title">BMW STOCK ANALYTICS</div>
-        <div class="bmw-subtitle">✨ Market dashboard ✨</div>
+        <div class="bmw-title">&gt; BMW_STOCK_ANALYTICS<span class="cursor">_</span></div>
+        <div class="bmw-subtitle">status: <span>live feed</span> &nbsp;//&nbsp; source: ohlcv.csv &nbsp;//&nbsp; protocol: navy-cyan</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
-
-st.markdown(f"<hr style='margin-top:6px;'>", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------
 # DATA LOADING
@@ -198,11 +312,39 @@ def load_data():
 df = load_data()
 
 # ---------------------------------------------------------------
+# LIVE TICKER TAPE — scrolling readout from the full dataset
+# ---------------------------------------------------------------
+_last, _prev = df.iloc[-1], df.iloc[-2]
+_chg = _last["Close"] - _prev["Close"]
+_pct = (_chg / _prev["Close"]) * 100
+_dir = "tk-up" if _chg >= 0 else "tk-down"
+_arrow = "▲" if _chg >= 0 else "▼"
+
+_ticker_items = f"""
+<span class="tk-label">LAST_CLOSE</span> {_last['Close']:.2f}
+<span class="tk-sep">//</span>
+<span class="{_dir}">{_arrow} {_chg:+.2f} ({_pct:+.2f}%)</span>
+<span class="tk-sep">//</span>
+<span class="tk-label">VOL</span> {_last['Volume']:,.0f}
+<span class="tk-sep">//</span>
+<span class="tk-label">HIGH</span> {_last['High']:.2f}
+<span class="tk-sep">//</span>
+<span class="tk-label">LOW</span> {_last['Low']:.2f}
+<span class="tk-sep">//</span>
+<span class="tk-label">AS_OF</span> {_last['Date'].strftime('%Y-%m-%d')}
+"""
+st.markdown(f"""
+<div class="ticker-wrap">
+    <div class="ticker-track">{_ticker_items * 3}</div>
+</div>
+""", unsafe_allow_html=True)
+
+# ---------------------------------------------------------------
 # SIDEBAR — INTERACTIVE CONTROLS
 # ---------------------------------------------------------------
 with st.sidebar:
     st.markdown(f"<div class='bmw-roundel' style='margin-bottom:10px;'>BMW</div>", unsafe_allow_html=True)
-    st.markdown("### 🎛️ Controls")
+    st.markdown("### $ controls")
 
     min_date, max_date = df["Date"].min().date(), df["Date"].max().date()
     date_range = st.date_input(
@@ -249,14 +391,14 @@ def style_fig(fig, title=None, height=450):
         template="plotly_dark",
         paper_bgcolor=BG,
         plot_bgcolor=BG,
-        font=dict(family="Quicksand, sans-serif", color=TEXT, size=13),
-        title=dict(text=title, font=dict(family="Orbitron, sans-serif", color=SECONDARY, size=18)) if title else None,
-        legend=dict(bgcolor="rgba(0,0,0,0)"),
+        font=dict(family="Share Tech Mono, monospace", color=TEXT, size=12),
+        title=dict(text=f"// {title}", font=dict(family="Orbitron, sans-serif", color=SECONDARY, size=17)) if title else None,
+        legend=dict(bgcolor="rgba(0,0,0,0)", font=dict(family="Share Tech Mono, monospace")),
         height=height,
         margin=dict(t=60, l=10, r=10, b=10),
     )
-    fig.update_xaxes(gridcolor="rgba(169,169,169,0.15)", zerolinecolor="rgba(169,169,169,0.2)")
-    fig.update_yaxes(gridcolor="rgba(169,169,169,0.15)", zerolinecolor="rgba(169,169,169,0.2)")
+    fig.update_xaxes(gridcolor="rgba(0,255,255,0.10)", zerolinecolor="rgba(0,255,255,0.15)", griddash="dot")
+    fig.update_yaxes(gridcolor="rgba(0,255,255,0.10)", zerolinecolor="rgba(0,255,255,0.15)", griddash="dot")
     return fig
 
 # ---------------------------------------------------------------
@@ -269,18 +411,18 @@ avg_vol = fdf["Volume"].mean()
 volatility = fdf["Daily_Return"].std()
 
 k1, k2, k3, k4, k5 = st.columns(5)
-k1.metric("💖 Latest Close", f"{latest['Close']:.2f}")
-k2.metric("🌿 Period Change", f"{pct_change:+.2f}%")
-k3.metric("🔮 Highest Close", f"{fdf['Close'].max():.2f}")
-k4.metric("🌙 Lowest Close", f"{fdf['Close'].min():.2f}")
-k5.metric("⚡ Avg Daily Volatility", f"{volatility:.2f}%")
+k1.metric("LAST_CLOSE", f"{latest['Close']:.2f}")
+k2.metric("PERIOD_Δ", f"{pct_change:+.2f}%")
+k3.metric("HIGH_MAX", f"{fdf['Close'].max():.2f}")
+k4.metric("LOW_MIN", f"{fdf['Close'].min():.2f}")
+k5.metric("VOLATILITY_σ", f"{volatility:.2f}%")
 
 st.markdown("")
 
 # ---------------------------------------------------------------
 # TABS
 # ---------------------------------------------------------------
-tab1, tab2, tab3, tab4 = st.tabs(["📈 Price Trends", "🎲 Returns & Volatility", "🧬 Correlations", "🗂️ Raw Data"])
+tab1, tab2, tab3, tab4 = st.tabs(["📈 PRICE_TRENDS", "🎲 RETURNS_VOL", "🧬 CORRELATIONS", "🗂️ RAW_DATA"])
 
 # ---- TAB 1: PRICE TRENDS ----
 with tab1:
@@ -378,7 +520,7 @@ with tab4:
 
 st.markdown(f"""
 <hr>
-<div style='text-align:center; color:{MUTED}; font-size:12px; padding-bottom:10px;'>
-made with 💖 + 🧠 — BMW Stock Analytics Dashboard
+<div style='text-align:center; color:{MUTED}; font-size:12px; padding-bottom:10px; font-family:"Share Tech Mono", monospace; letter-spacing:1px;'>
+&gt; END_OF_FEED <span style="color:{DATA_LINE};">_</span> &nbsp;//&nbsp; BMW_STOCK_ANALYTICS.TERMINAL
 </div>
 """, unsafe_allow_html=True)
