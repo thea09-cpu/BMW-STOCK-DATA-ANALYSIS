@@ -217,13 +217,13 @@ button[data-baseweb="tab"][aria-selected="true"] {{
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
     font-size: 30px;
-    color: {PRIMARY};
+    color: {HIGHLIGHT};
     text-shadow: 0 0 16px rgba(255,182,193,0.5);
     letter-spacing: 1px;
 }}
 .bmw-title .cursor {{
     display: inline-block;
-    color: {DATA_LINE};
+    color: {HIGHLIGHT};
     animation: blink 1.1s steps(1) infinite;
 }}
 @keyframes blink {{ 50% {{ opacity: 0; }} }}
@@ -235,7 +235,7 @@ button[data-baseweb="tab"][aria-selected="true"] {{
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }}
-.bmw-subtitle span {{ color: {SECONDARY}; }}
+.bmw-subtitle span {{ color: {HIGHLIGHT}; }}
 
 /* Ticker tape — scrolling live-feed strip */
 .ticker-wrap {{
