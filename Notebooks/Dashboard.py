@@ -17,14 +17,14 @@ st.set_page_config(
 # ---------------------------------------------------------------
 # COLOR PALETTE
 # ---------------------------------------------------------------
-BG          = "#1B1F3B"   # Dark Navy
-PRIMARY     = "#FFB6C1"   # Pastel Pink
-SECONDARY   = "#98FF98"   # Mint Green
-HIGHLIGHT   = "#C8A2C8"   # Lilac
-DATA_LINE   = "#00FFFF"   # Neon Cyan
-TEXT        = "#F5F5F5"   # Off-White
-MUTED       = "#A9A9A9"   # Gray
-CARD_BG     = "#252A4D"   # slightly lighter navy for cards
+BG          = "#051F20"   # Very Dark Green
+PRIMARY     = "#0B2B26"   # Deep Forest Green
+SECONDARY   = "#163832"   # Dark Teal Green
+HIGHLIGHT   = "#235347"   # Medium Green
+DATA_LINE   = "#8EB69B"   # Soft Sage Green
+TEXT        = "#8EB69B"   # Soft Sage Green (same as DATA_LINE)
+MUTED       = "#163832"   # Reusing Dark Teal Green for muted tones
+CARD_BG     = "#0B2B26"   # Deep Forest Green for card background
 
 # ---------------------------------------------------------------
 # CUSTOM CSS — cyberpunk trading-terminal skin (palette unchanged)
