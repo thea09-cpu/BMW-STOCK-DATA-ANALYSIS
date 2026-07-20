@@ -35,7 +35,7 @@ st.markdown(f"""
 
 <style>
 :root {{
-    --hud-corner: {DATA_LINE};
+    --hud-corner: {DATA_LINE};g
 }}
 
 html, body, [class*="css"] {{
@@ -109,9 +109,9 @@ h2::before, h3::before {{
 
 /* Sidebar — terminal control panel */
 section[data-testid="stSidebar"] {{
-    background-color: #14172E;
-    border-right: 1px solid rgba(0,255,255,0.25);
-    box-shadow: inset -8px 0 24px rgba(0,255,255,0.04);
+    background-color: {CARD_BG};
+    border-right: 1px solid rgba(142,182,155,0.25);
+    box-shadow: inset -8px 0 24px rgba(142,182,155,0.08);
 }}
 section[data-testid="stSidebar"] * {{
     color: {TEXT} !important;
