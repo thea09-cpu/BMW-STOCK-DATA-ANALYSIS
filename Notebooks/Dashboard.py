@@ -173,7 +173,7 @@ div[data-baseweb="tab-list"] {{
 }}
 button[data-baseweb="tab"] {{
     font-family: 'Share Tech Mono', monospace !important;
-    color: {MUTED} !important;
+    color: {DATA_LINE} !important;
     background: rgba(0,255,255,0.03);
     border: 1px solid rgba(0,255,255,0.12) !important;
     border-radius: 4px 4px 0 0 !important;
@@ -181,10 +181,10 @@ button[data-baseweb="tab"] {{
     letter-spacing: 1px;
 }}
 button[data-baseweb="tab"][aria-selected="true"] {{
-    color: {PRIMARY} !important;
+    color: {HIGHLIGHT} !important;
     background: rgba(255,182,193,0.06);
     border-color: rgba(255,182,193,0.4) !important;
-    border-bottom: 2px solid {PRIMARY} !important;
+    border-bottom: 2px solid {HIGHLIGHT} !important;
     text-shadow: 0 0 8px rgba(255,182,193,0.4);
 }}
 
