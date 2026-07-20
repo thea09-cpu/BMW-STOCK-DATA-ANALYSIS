@@ -217,7 +217,7 @@ button[data-baseweb="tab"][aria-selected="true"] {{
     font-family: 'Orbitron', sans-serif;
     font-weight: 900;
     font-size: 30px;
-    color: {HIGHLIGHT};
+    color: {DATA_LINE};
     text-shadow: 0 0 16px rgba(255,182,193,0.5);
     letter-spacing: 1px;
 }}
